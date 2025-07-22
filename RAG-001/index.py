@@ -1,6 +1,25 @@
 import nest_asyncio
+import nltk
+import ssl
 
 nest_asyncio.apply()
+
+# Fix SSL certificate issues and download NLTK data
+try:
+    _create_unverified_https_context = ssl._create_unverified_context
+except AttributeError:
+    pass
+else:
+    ssl._create_default_https_context = _create_unverified_https_context
+
+# Download required NLTK data
+try:
+    nltk.download('stopwords', quiet=True)
+    nltk.download('punkt', quiet=True)
+    nltk.download('punkt_tab', quiet=True)
+except Exception as e:
+    print(f"Warning: Could not download NLTK data: {e}")
+
 
 # Extract the documents from the specified directory
 from llama_index.core import SimpleDirectoryReader
@@ -75,7 +94,7 @@ load_dotenv()
 # print(os.environ['GROQ_API_KEY'])
 
 llm_transformations = Groq(
-    model="qwen-2.5-32b",
+    model="llama-3.1-8b-instant",
     api_key=os.environ['GROQ_API_KEY'],
 )
 
