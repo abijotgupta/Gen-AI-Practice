@@ -1,3 +1,5 @@
+# source: https://www.youtube.com/watch?v=yzPQaNhuVGU
+
 import nest_asyncio
 import nltk
 import ssl
